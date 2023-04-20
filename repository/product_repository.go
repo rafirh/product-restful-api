@@ -7,9 +7,9 @@ import (
 )
 
 type ProductRepository interface {
-	FindAll(ctx context.Context, db *sql.DB, product domain.Product) []domain.Product
-	FindById(ctx context.Context, db *sql.DB, productId int) domain.Product
-	Create(ctx context.Context, db *sql.DB, product domain.Product) domain.Product
-	Update(ctx context.Context, db *sql.DB, product domain.Product) domain.Product
-	Delete(ctx context.Context, db *sql.DB, productId int) 
+	Save(ctx context.Context, tx *sql.Tx, product domain.Product) domain.Product
+	Update(ctx context.Context, tx *sql.Tx, product domain.Product) domain.Product
+	Delete(ctx context.Context, tx *sql.Tx, productId int)
+	FindById(ctx context.Context, tx *sql.Tx, productId int) domain.Product
+	FindAll(ctx context.Context, tx *sql.Tx) []domain.Product
 }
