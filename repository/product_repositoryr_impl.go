@@ -11,7 +11,7 @@ import (
 
 type ProductRepositoryImpl struct {}
 
-func NewProductCategory() ProductRepository {
+func NewProductRepository() ProductRepository {
 	return &ProductRepositoryImpl{}
 }
 

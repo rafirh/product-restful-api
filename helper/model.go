@@ -5,12 +5,6 @@ import (
 	"product_restful_api/model/web"
 )
 
-func PanicIfError(err error) {
-	if err != nil {
-		panic(err)
-	}
-}
-
 func ToProductResponse(product *domain.Product) web.ProductResponse {
 	return web.ProductResponse{
 		Id: product.Id,
