@@ -3,6 +3,7 @@ package repository
 import (
 	"context"
 	"database/sql"
+	"errors"
 	"product_restful_api/helper"
 	"product_restful_api/model/domain"
 	"time"
@@ -25,7 +26,7 @@ func (repository ProductRepositoryImpl) Save(ctx context.Context, tx *sql.Tx, pr
 	
 	id, err := result.LastInsertId()
 	helper.PanicIfError(err)
-	product.Id = id
+	product.Id = int(id)
 
 	return product
 }
@@ -39,13 +40,13 @@ func (repository ProductRepositoryImpl) Update(ctx context.Context, tx *sql.Tx, 
 	return product
 }
 
-func (repository ProductRepositoryImpl) Delete(ctx context.Context, tx *sql.Tx, productId int) {
+func (repository ProductRepositoryImpl) Delete(ctx context.Context, tx *sql.Tx, product domain.Product) {
 	sql := "DELETE FROM product WHERE id = ?"
-	_, err := tx.ExecContext(ctx, sql, productId)
+	_, err := tx.ExecContext(ctx, sql, product.Id)
 	helper.PanicIfError(err)
 }
 
-func (repository ProductRepositoryImpl) FindById(ctx context.Context, tx *sql.Tx, productId int) domain.Product {
+func (repository ProductRepositoryImpl) FindById(ctx context.Context, tx *sql.Tx, productId int) (domain.Product, error) {
 	sql := "SELECT id, name, price, created_at, updated_at FROM product WHERE id = ? LIMIT 1"
 	rows, err := tx.QueryContext(ctx, sql, productId)
 	helper.PanicIfError(err)
@@ -55,9 +56,11 @@ func (repository ProductRepositoryImpl) FindById(ctx context.Context, tx *sql.Tx
 	if rows.Next() {
 		err := rows.Scan(&product.Id, &product.Name, &product.CreatedAt, &product.UpdatedAt)
 		helper.PanicIfError(err)
+	} else {
+		return product, errors.New("product is not found")
 	}
 	
-	return product
+	return product, nil
 }
 
 func (repository ProductRepositoryImpl) FindAll(ctx context.Context, tx *sql.Tx) []domain.Product {

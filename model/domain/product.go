@@ -6,9 +6,9 @@ import (
 )
 
 type Product struct {
-	Id int64
+	Id int
 	Name string
-	Price string
+	Price int64
 	CreatedAt time.Time
 	UpdatedAt time.Time
 }
