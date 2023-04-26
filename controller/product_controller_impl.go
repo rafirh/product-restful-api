@@ -31,7 +31,7 @@ func (controller ProductControllerImpl) Create(writer http.ResponseWriter, reque
 
 func (controller ProductControllerImpl) Update(writer http.ResponseWriter, request *http.Request, params httprouter.Params) {
 	var productRequest web.ProductRequestUpdate
-	helper.ReadFromRequestBody(request, productRequest)
+	helper.ReadFromRequestBody(request, &productRequest)
 
 	productRequest.Id = helper.GetParamInt(&params, "id")
 

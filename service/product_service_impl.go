@@ -46,7 +46,7 @@ func (service ProductServiceImpl) Create(ctx context.Context, request web.Produc
 func (service ProductServiceImpl) Update(ctx context.Context, request web.ProductRequestUpdate) web.ProductResponse {
 	err := service.Validate.Struct(request)
 	helper.PanicIfError(err)
-
+	
 	tx, err := service.DB.Begin()
 	helper.PanicIfError(err)
 	defer helper.CommitOrRollback(tx)

@@ -8,8 +8,9 @@ import (
 	"product_restful_api/middleware"
 	"product_restful_api/repository"
 	"product_restful_api/service"
-
+	
 	"github.com/go-playground/validator/v10"
+	_ "github.com/go-sql-driver/mysql"
 )
 
 func main() {
